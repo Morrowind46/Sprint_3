@@ -51,7 +51,6 @@ public class CreateOrderTest {
 
         int statusCode = response.extract().statusCode();
         int trackId = response.extract().path("track");
-        System.out.println(trackId);
 
         assertThat ("Status code is incorrect", statusCode, equalTo(201));
         assertThat("Track number not created", trackId, is(not(0)));

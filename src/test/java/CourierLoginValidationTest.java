@@ -4,6 +4,8 @@ import com.ya.CourierCredentials;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -35,7 +37,12 @@ public static Object[][] getTestData() {
         {CourierCredentials.getCredentialsWithRandomLogin (courier), 404 , "Учетная запись не найдена"},
         {CourierCredentials.getCredentialsWithRandomPassword (courier), 404 , "Учетная запись не найдена"},
         };
-        }
+}
+
+    @After
+    public void  tearDown() {
+        courierClient.delete (courierId);
+    }
 
     @Test
     @DisplayName ("Для авторизации нужно передать все обязательные поля")
@@ -55,7 +62,5 @@ public static Object[][] getTestData() {
         assertEquals ("Status code is incorrect",expectedStatus, ActualStatusCode);
         String actualMessage = login.extract ().path ("message");
         assertEquals ("Courier ID is incorrect", expectedErrorMessage, actualMessage);
-
-        courierClient.delete(courierId);
     }
 }

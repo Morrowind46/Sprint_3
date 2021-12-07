@@ -59,8 +59,9 @@ public class CourierCreateTest {
 
         int statusCodeNegativeResponse = negativeResponse.extract().statusCode();
         String errorMessage = negativeResponse.extract().path("message");
+        courierId = courierClient.login(CourierCredentials.from(courier)).extract().path("id");
 
         assertThat("Error status code", statusCodeNegativeResponse, equalTo(409));
-        assertThat("Wrong body - massage", errorMessage, (equalTo("Этот логин уже используется")));
+        assertThat("Wrong body - massage", errorMessage, (equalTo("Этот логин уже используется. Попробуйте другой.")));
     }
 }
